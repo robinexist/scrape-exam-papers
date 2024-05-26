@@ -16,27 +16,20 @@ print_lock = threading.Lock()
 NumsThatDidntWork = []
 
 # arrays for past papers
-MMME1ARRAY = []
-ENGFFARRAY = []
-MMME2ARRAY = []
-COMP2ARRAY = []
-CHEM1ARRAY = []
-LIFE1ARRAY = []
-ECON1ARRAY = []
-PSGY1ARRAY = []
+ARRAY = []
 counter = False
 
 def if_page(driver, url):
     global counter
-    usernametext = ''
-    passwordtext = ''
+    usernametext = '' # type your username here
+    passwordtext = '' # type your password here
     driver.execute_script("window.open('" + url + "');")  # Open page in new tab using Selenium
     driver.switch_to.window(driver.window_handles[-1])  # Switch to newly opened tab
     if not counter:
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'searchinput')))
         input_element = driver.find_element(By.ID, 'searchinput')
         input_element.clear()
-        for char in "University of Nottingham":
+        for char in "": # type your university here
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'searchinput')))
             input_element.send_keys(char)
             time.sleep(0.1)
@@ -44,7 +37,7 @@ def if_page(driver, url):
         time.sleep(1)
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'primary'))) 
         input_element2 = driver.find_elements(By.CLASS_NAME, 'primary')
-        input_element2[1].click()
+        input_element2[1].click() # make sure it clicks on the right university here
         counter = True     
     else:
         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'primary'))) 
@@ -64,21 +57,7 @@ def if_page(driver, url):
     html_source = BeautifulSoup(source, 'html.parser')
     code = html_source.find_all('div', attrs={'class':'simple-item-view-description item-page-field-wrapper table'})
     if len(code) > 1 and str(code[1].text[16:21]) == 'MMME1':
-        MMME1ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'ENGFF':
-        ENGFFARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'MMME2':
-        MMME2ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'COMP2':
-        COMP2ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'CHEM1':
-        CHEM1ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'LIFE1':
-        LIFE1ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'ECON1':
-        ECON1ARRAY.append(url)
-    elif len(code) > 1 and str(code[1].text[16:21]) == 'PSGY1':
-        PSGY1ARRAY.append(url)
+        ARRAY.append(url)
     driver.close()  # Close the current tab
     driver.switch_to.window(driver.window_handles[-1])
 def scrape_page(i, driver):
@@ -145,12 +124,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print('mecanical year 1 array is:',MMME1ARRAY)
-    print('FFEBS array is:', ENGFFARRAY)
-    print('mech year 2 is:', MMME2ARRAY)
-    print('comp sci second year is:', COMP2ARRAY)
-    print('chem first year is:', CHEM1ARRAY)
-    print('boi chem first year is:', LIFE1ARRAY)
-    print('math and econ first year is:', ECON1ARRAY)
-    print('psychology first year is:', PSGY1ARRAY)
+    print('your array is:',ARRAY)
     print('END')
